@@ -60,9 +60,10 @@ const CelebrationsPage: React.FC = () => {
       alert('Failed to delete celebration. Please try again.');
     }
   };
+  type CelebrationWithoutId = Omit<Celebration, 'id'> & { isRecurring?: boolean };
 
-  const handleSubmitCelebration = async (celebrationData: Omit<Celebration, 'id'>) => {
-    setIsSubmitting(true);
+  const handleSubmitCelebration = async (celebrationData: CelebrationWithoutId) => {
+   setIsSubmitting(true);
     try {
       if (selectedCelebration) {
         await updateCelebration(selectedCelebration.id, {
