@@ -5,7 +5,7 @@ require('dotenv').config();
 const announcementRoutes = require("./routes/announcements");
 const app = express();
 const PORT = process.env.PORT || 5000;
-const backendURL = 'https://teamhub-keah.onrender.com';
+const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 app.use(cors());
 app.use(express.json());
 
@@ -19,9 +19,9 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/teamhub',
 .catch(err => console.error('MongoDB connection error:', err));
 
 // Routes
-app.use('/api/employees', require('./routes/employees'));
+app.use("/api/employees", require('./routes/employees'));
 app.use("/api/announcements", announcementRoutes);
-app.use('/api/celebrations', require('./routes/celebrations'));
+app.use("/api/celebrations", require('./routes/celebrations'));
 app.use("/api/stats", require("./routes/stats"));
 
 // Health check route

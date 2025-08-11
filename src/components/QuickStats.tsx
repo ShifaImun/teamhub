@@ -21,7 +21,7 @@ interface Celebration {
 }
 
 import React, { useEffect, useState } from "react";
-const backendURL="https://teamhub-keah.onrender.com";
+const backendURL=process.env.NEXT_PUBLIC_BACKEND_URL;
 export default function QuickStats() {
   const [stats, setStats] = useState({
     teamMembers: 0,
@@ -34,9 +34,9 @@ export default function QuickStats() {
     async function fetchStats() {
       try {
         const [employeesRes, announcementsRes, celebrationsRes] = await Promise.all([
-          fetch("${backendURL}/api/employees"),
-          fetch("${backendURL}/api/announcements"),
-          fetch("${backendURL}/api/celebrations"),
+          fetch(`${backendURL}/api/employees`),
+          fetch(`${backendURL}/api/announcements`),
+          fetch(`${backendURL}/api/celebrations`),
         ]);
 
         const employeesData = await employeesRes.json();

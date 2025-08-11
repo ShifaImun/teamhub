@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+const backendURL=process.env.NEXT_PUBLIC_BACKEND_URL;
 export interface Announcement {
   _id?: string;
   title: string;
@@ -11,7 +11,7 @@ export function useAnnouncements() {
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const API_URL = "http://localhost:5000/api/announcements";
+  const API_URL = `${backendURL}/api/announcements`;
 
 
   // Fetch all announcements

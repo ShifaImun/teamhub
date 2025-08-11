@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-const backendURL = 'https://teamhub-keah.onrender.com';
+const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
 fetch(`${backendURL}/api/employees`);
 
 interface Celebration {
@@ -27,7 +27,7 @@ interface CelebrationResponse {
   data: Celebration;
 }
 
-const API_BASE_URL = '${backendURL}/api/celebrations';
+const API_BASE_URL = `${backendURL}/api/celebrations`;
 
 const fetcher = async (url: string): Promise<CelebrationsResponse> => {
   try {
