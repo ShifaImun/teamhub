@@ -6,7 +6,14 @@ import { useRouter } from "next/navigation";  // Import useRouter
 import { useKeycloak } from "@/context/KeycloakContext";
 
 const LoginPage: React.FC = () => {
-  const { keycloak, initialized } = useKeycloak();
+  const keycloakContext = useKeycloak();
+
+if (!keycloakContext) {
+  return null; // or a loading state, until context is ready
+}
+
+const { keycloak, initialized } = keycloakContext;
+
   const router = useRouter();
   const [isClient, setIsClient] = useState(false);
 
