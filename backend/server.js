@@ -6,7 +6,26 @@ const announcementRoutes = require("./routes/announcements");
 const app = express();
 const PORT = process.env.PORT || 5000;
 const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
-app.use(cors());
+const allowedOrigins = [
+  'https://teamhub-henna.vercel.app', // your Vercel frontend URL
+  'http://localhost:3000',             // local dev frontend URL
+];
+
+app.use(cors({
+  origin: function(origin, callback) {
+    // Allow requests with no origin (like curl, Postman)
+    if (!origin) return callback(null, true);
+
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = `CORS policy does not allow access from origin ${origin}`;
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  credentials: true, // if you use cookies, sessions, etc.
+}));
+
 app.use(express.json());
 
 console.log('MONGODB_URI env:', process.env.MONGODB_URI);
