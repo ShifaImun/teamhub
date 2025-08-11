@@ -27,7 +27,7 @@ const CelebrationsPage: React.FC = () => {
   
   const { 
     celebrations, 
-    count, 
+  //  count, 
     isLoading, 
     error, 
     mutate, 
@@ -77,7 +77,7 @@ const CelebrationsPage: React.FC = () => {
         await createCelebration(celebrationData);
       }
       handleCloseModal();
-    } catch (error: any) {
+    } catch (error: unknown) {
       const errorMessage = error.message || 'Failed to save celebration. Please try again.';
       alert(errorMessage);
     } finally {
