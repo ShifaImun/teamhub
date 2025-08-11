@@ -16,6 +16,7 @@ interface Celebration {
   description?: string;
   isEmployeeBased?: boolean;
   isCustom?: boolean;
+  employeeId?: string;
 }
 
 const CelebrationsPage: React.FC = () => {
