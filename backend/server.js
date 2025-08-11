@@ -5,7 +5,7 @@ require('dotenv').config();
 const announcementRoutes = require("./routes/announcements");
 const app = express();
 const PORT = process.env.PORT || 5000;
-
+const backendURL = 'https://teamhub-keah.onrender.com';
 app.use(cors());
 app.use(express.json());
 
