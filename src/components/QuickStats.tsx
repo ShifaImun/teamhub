@@ -24,7 +24,7 @@ export default function QuickStats() {
 
         const teamMembersCount = employeesData?.count || employeesData?.data?.length || 0;
         const departmentsCount = new Set(
-          employeesData?.data?.map((emp: any) => emp.department)
+          employeesData?.data?.map((emp: unknown) => emp.department)
         ).size || 0;
         const announcementsCount =
           announcementsData?.length || announcementsData?.data?.length || 0;
@@ -35,7 +35,7 @@ export default function QuickStats() {
         oneWeekLater.setDate(today.getDate() + 7);
 
         const upcomingThisWeek =
-          celebrationsData?.data?.filter((celebration: any) => {
+          celebrationsData?.data?.filter((celebration: unknown) => {
             const eventDate = new Date(celebration.date);
             return eventDate >= today && eventDate <= oneWeekLater;
           }).length || 0;

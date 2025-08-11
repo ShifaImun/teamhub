@@ -280,7 +280,7 @@ const CelebrationsPage: React.FC = () => {
             <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 mr-2">
               Today!
             </span>
-            Today's Celebrations
+            Today&apos;s Celebrations
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {todayCelebrations.map((celebration) => (
