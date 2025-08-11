@@ -80,9 +80,13 @@ const CelebrationsPage: React.FC = () => {
       }
       handleCloseModal();
     } catch (error: unknown) {
-      const errorMessage = error.message || 'Failed to save celebration. Please try again.';
+      let errorMessage = 'Failed to save celebration. Please try again.';
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
       alert(errorMessage);
-    } finally {
+    }
+    finally {
       setIsSubmitting(false);
     }
   };
