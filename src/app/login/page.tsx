@@ -12,27 +12,27 @@ if (!keycloakContext) {
   return null; // or a loading state, until context is ready
 }
 
-const { keycloak, initialized } = keycloakContext;
+const LoginPage: React.FC = () => {
+  const keycloakContext = useKeycloak();  // hook at top level
+  const router = useRouter();              // hook at top level
+  const [isClient, setIsClient] = useState(false);  // hook at top level
 
-  const router = useRouter();
-  const [isClient, setIsClient] = useState(false);
-
-  // Ensure this runs only on client-side rendering
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  // Redirect to Home if already authenticated
+  if (!keycloakContext || !isClient) {
+    // return loading or null only AFTER hooks are called
+    return null;
+  }
+
+  const { keycloak, initialized } = keycloakContext;
+
   useEffect(() => {
     if (initialized && keycloak?.authenticated) {
       router.push("/");
     }
   }, [initialized, keycloak?.authenticated, router]);
-
-  if (!isClient) {
-    // Prevent SSR mismatches
-    return null;
-  }
 
   const handleKeycloakLogin = () => {
     if (keycloak) {
