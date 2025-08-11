@@ -1,4 +1,24 @@
 "use client";
+interface Employee {
+  _id: string;
+  name: string;
+  email: string;
+  role: string;
+  department: string;
+  photo: string;
+  birthday: string;
+  hireDate: string;
+}
+interface Celebration {
+  id: string;
+  name: string;
+  event: 'Birthday' | 'Work Anniversary' | 'Custom Celebration';
+  date: string;
+  photo: string;
+  description?: string;
+  employeeId?: string;
+  isRecurring?: boolean;
+}
 
 import React, { useEffect, useState } from "react";
 const backendURL="https://teamhub-keah.onrender.com";
@@ -25,8 +45,9 @@ export default function QuickStats() {
 
         const teamMembersCount = employeesData?.count || employeesData?.data?.length || 0;
         const departmentsCount = new Set(
-          employeesData?.data?.map((emp: unknown) => emp.department)
+          employeesData?.data?.map((emp: Employee) => emp.department)
         ).size || 0;
+        
         const announcementsCount =
           announcementsData?.length || announcementsData?.data?.length || 0;
 
@@ -36,10 +57,11 @@ export default function QuickStats() {
         oneWeekLater.setDate(today.getDate() + 7);
 
         const upcomingThisWeek =
-          celebrationsData?.data?.filter((celebration: unknown) => {
-            const eventDate = new Date(celebration.date);
-            return eventDate >= today && eventDate <= oneWeekLater;
-          }).length || 0;
+  celebrationsData?.data?.filter((celebration: Celebration) => {
+    const eventDate = new Date(celebration.date);
+    return eventDate >= today && eventDate <= oneWeekLater;
+  }).length || 0;
+
 
         setStats({
           teamMembers: teamMembersCount,

@@ -5,34 +5,42 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";  // Import useRouter
 import { useKeycloak } from "@/context/KeycloakContext";
 
-const LoginPage: React.FC = () => {
-  const keycloakContext = useKeycloak();
+// Define the shape of Keycloak instance you use
+interface KeycloakInstance {
+  authenticated?: boolean;
+  login: () => void;
+  // add other properties/methods you use
+}
 
-if (!keycloakContext) {
-  return null; // or a loading state, until context is ready
+// Define the shape of the context value returned by useKeycloak
+interface KeycloakContext {
+  keycloak: KeycloakInstance | null;
+  initialized: boolean;
 }
 
 const LoginPage: React.FC = () => {
-  const keycloakContext = useKeycloak();  // hook at top level
-  const router = useRouter();              // hook at top level
-  const [isClient, setIsClient] = useState(false);  // hook at top level
+  // Grab context and cast its type so TS understands it
+  const keycloakContext = useKeycloak() as KeycloakContext | null;
+  const router = useRouter();
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  if (!keycloakContext || !isClient) {
-    // return loading or null only AFTER hooks are called
-    return null;
-  }
+  const keycloak = keycloakContext?.keycloak || null;
+  const initialized = keycloakContext?.initialized || false;
 
-  const { keycloak, initialized } = keycloakContext;
-
+  // Call this hook *always*
   useEffect(() => {
     if (initialized && keycloak?.authenticated) {
       router.push("/");
     }
   }, [initialized, keycloak?.authenticated, router]);
+  if (!keycloakContext || !isClient) {
+    return null;
+  }
+
 
   const handleKeycloakLogin = () => {
     if (keycloak) {

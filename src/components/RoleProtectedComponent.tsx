@@ -14,16 +14,23 @@ const RoleProtectedComponent: React.FC<RoleProtectedComponentProps> = ({
   userRole,
   fallback = null,
 }) => {
-  const { keycloak } = useKeycloak();
-  // Use userRole prop if provided, otherwise get from Keycloak
+  const keycloakContext = useKeycloak();
+
+  if (!keycloakContext) {
+    // Context not ready, you can choose to show fallback or nothing
+    return <>{fallback}</>;
+  }
+
+  const { keycloak } = keycloakContext;
+
   let effectiveRole = userRole;
   if (!effectiveRole && keycloak && keycloak.tokenParsed) {
-    // Keycloak roles are usually in tokenParsed.realm_access.roles (array)
     const roles = keycloak.tokenParsed.realm_access?.roles;
     if (roles && roles.length > 0) {
-      effectiveRole = roles[0]; // Use the first role, or adapt as needed
+      effectiveRole = roles[0];
     }
   }
+
   const hasRequiredRole = () => {
     if (requiredRoles.length === 0) return true;
     if (!effectiveRole) return false;
@@ -36,5 +43,6 @@ const RoleProtectedComponent: React.FC<RoleProtectedComponentProps> = ({
 
   return <>{fallback}</>;
 };
+
 
 export default RoleProtectedComponent; 

@@ -7,7 +7,15 @@ import { useKeycloak } from '@/context/KeycloakContext';
 
 const Navbar: React.FC = () => {
   const pathname = usePathname();
-  const { keycloak } = useKeycloak();
+  const keycloakContext = useKeycloak();
+
+if (!keycloakContext) {
+  // handle no context (return null, fallback UI, or default)
+  return null; // or whatever you want
+}
+
+const { keycloak } = keycloakContext;
+
 
   const navItems = [
     { href: '/directory', label: 'Directory', icon: '👥' },

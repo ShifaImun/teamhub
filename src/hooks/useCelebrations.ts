@@ -48,7 +48,7 @@ export const useCelebrations = () => {
     API_BASE_URL,
     fetcher,
   {
-    revalidateOnFocus: false,
+    
     revalidateOnReconnect: true,
     refreshInterval: 5000,  // Auto refresh every 5 sec
     dedupingInterval: 0,    // Disable deduplication (always hit API)

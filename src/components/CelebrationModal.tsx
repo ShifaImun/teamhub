@@ -26,15 +26,26 @@ const CelebrationModal: React.FC<CelebrationModalProps> = ({
   onSubmit,
   isLoading = false
 }) => {
-  const [formData, setFormData] = useState({
+  interface FormData {
+    name: string;
+    event: 'Birthday' | 'Work Anniversary' | 'Custom Celebration';
+    date: string;
+    photo: string;
+    description: string;
+    employeeId: string;
+    isRecurring: boolean;
+  }
+  
+  const [formData, setFormData] = useState<FormData>({
     name: '',
-    event: 'Custom Celebration' as const,
+    event: 'Custom Celebration',
     date: '',
     photo: '',
     description: '',
     employeeId: '',
-    isRecurring: true
+    isRecurring: true,
   });
+  
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const isEditMode = !!celebration;
@@ -153,9 +164,10 @@ const CelebrationModal: React.FC<CelebrationModalProps> = ({
             <select
               id="event"
               value={formData.event}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
                 handleInputChange('event', e.target.value)
               }
+              
               
               className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 ${
                 errors.event ? 'border-red-500' : 'border-gray-300'
